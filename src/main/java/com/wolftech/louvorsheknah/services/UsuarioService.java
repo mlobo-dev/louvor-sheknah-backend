@@ -48,7 +48,7 @@ public class UsuarioService {
     public Usuario autenticar(String emailOuLogin, String senha) {
         Optional<Usuario> usuario = repository.findByEmailOrLogin(emailOuLogin, emailOuLogin);
         if (!usuario.isPresent()) {
-            throw new AuthException("Usuário não encontrado: " + emailOuLogin);
+            throw new AuthException("Usuário não encontrado: " );
         }
 
         if (!usuario.get().getSenha().equals(senha)) {

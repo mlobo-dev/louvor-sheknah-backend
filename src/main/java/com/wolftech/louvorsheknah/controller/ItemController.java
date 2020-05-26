@@ -1,5 +1,6 @@
 package com.wolftech.louvorsheknah.controller;
 
+import com.wolftech.louvorsheknah.dto.ItemCadastroDTO;
 import com.wolftech.louvorsheknah.dto.ItemDTO;
 import com.wolftech.louvorsheknah.mapper.ItemMapper;
 import com.wolftech.louvorsheknah.services.ItemService;
@@ -32,7 +33,7 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemDTO> salvar(@RequestBody ItemDTO dto) {
+    public ResponseEntity<ItemDTO> salvar(@RequestBody ItemCadastroDTO dto) {
         return new ResponseEntity(mapper.toDto(service.salvar(dto)), HttpStatus.CREATED);
     }
 

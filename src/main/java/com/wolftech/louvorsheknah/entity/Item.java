@@ -44,4 +44,8 @@ public class Item implements Serializable {
 	@Column(name = "ARTISTA")
 	private String artista;
 
+	@ManyToOne
+	@JoinColumn(name = "COD_USUARIO")
+	private Usuario usuario;
+
 }

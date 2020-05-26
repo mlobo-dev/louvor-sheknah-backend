@@ -1,26 +1,43 @@
 package com.wolftech.louvorsheknah.services;
 
+import com.wolftech.louvorsheknah.dto.ItemCadastroDTO;
 import com.wolftech.louvorsheknah.dto.ItemDTO;
-import com.wolftech.louvorsheknah.exception.ObjectNotFoundException;
-import com.wolftech.louvorsheknah.mapper.ItemMapper;
 import com.wolftech.louvorsheknah.entity.Item;
+import com.wolftech.louvorsheknah.entity.Log;
+import com.wolftech.louvorsheknah.entity.Usuario;
+import com.wolftech.louvorsheknah.entity.enums.Tipo;
+import com.wolftech.louvorsheknah.exception.ObjectNotFoundException;
+import com.wolftech.louvorsheknah.mapper.ItemCadastroMapper;
+import com.wolftech.louvorsheknah.mapper.ItemMapper;
 import com.wolftech.louvorsheknah.repositories.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
 
-    @Autowired
-    private ItemRepository repository;
+    private final ItemRepository repository;
+    private final ItemMapper mapper;
+    private final ItemCadastroMapper cadastroMapper;
+    private final LogService logService;
+    private final UsuarioService usuarioService;
 
-    @Autowired
-    private ItemMapper mapper;
+    public Item salvar(ItemCadastroDTO dto) {
+        Usuario usuario = usuarioService.buscarPorId(dto.getIdUsuario());
+        Item item = cadastroMapper.toEntity(dto);
+        item.setUsuario(usuario);
+        repository.save(item);
 
-    public Item salvar(ItemDTO dto) {
-        return repository.save(mapper.toEntity(dto));
+        Log log = new Log();
+        log.setAutor(usuario.getNome());
+        log.setIdObjeto(usuario.getId());
+        log.setDescricao("Nova música adicionada ao repertório: " + item.getNome());
+        log.setTipo(Tipo.ITEM);
+        logService.salvar(log);
+        return item;
     }
 
     public List<Item> listarTudo() {
