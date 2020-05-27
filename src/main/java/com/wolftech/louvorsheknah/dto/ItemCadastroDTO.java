@@ -2,7 +2,6 @@ package com.wolftech.louvorsheknah.dto;
 import com.wolftech.louvorsheknah.entity.enums.CategoriaEnum;
 import lombok.*;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -12,16 +11,21 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemDTO implements Serializable {
+public class ItemCadastroDTO implements Serializable {
 	private Long id;
+
+	@NotNull
+	private Long idUsuario;
+
 	@NotNull
 	private String nome;
+
 	private String urlCifra;
 	private String urlVideo;
 	private String urlAudio;
 	private CategoriaEnum categoriaEnum;
 	private String artista;
 	private String letra;
-	private UsuarioDTO usuario;
+
 
 }

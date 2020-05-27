@@ -2,6 +2,8 @@ package com.wolftech.louvorsheknah.controller;
 
 import com.wolftech.louvorsheknah.dto.UsuarioAuthDTO;
 import com.wolftech.louvorsheknah.dto.UsuarioDTO;
+import com.wolftech.louvorsheknah.entity.Usuario;
+import com.wolftech.louvorsheknah.exception.AuthException;
 import com.wolftech.louvorsheknah.mapper.UsuarioMapper;
 import com.wolftech.louvorsheknah.services.UsuarioService;
 import io.swagger.annotations.Api;
@@ -56,8 +58,14 @@ public class UsuarioController {
 
     @PostMapping("/autenticar")
     @ApiOperation("Rota para autenticar o usuário através do login/email e senha.")
-    public ResponseEntity<UsuarioDTO> autenticar(@RequestBody UsuarioAuthDTO dto) {
-        return ResponseEntity.ok(mapper.toDto(service.autenticar(dto.getEmailOuLogin(), dto.getSenha())));
+    public ResponseEntity autenticar(@RequestBody UsuarioAuthDTO dto) {
+        try {
+            Usuario usuarioAutenticado = service.autenticar(dto.getEmailOuLogin(), dto.getSenha());
+            return ResponseEntity.ok(mapper.toDto(usuarioAutenticado));
+        } catch (AuthException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
     }
 
 

@@ -3,7 +3,10 @@ package com.wolftech.louvorsheknah.services;
 import com.wolftech.louvorsheknah.dto.RepertorioCadastroDTO;
 import com.wolftech.louvorsheknah.dto.RepertorioDTO;
 import com.wolftech.louvorsheknah.entity.Item;
+import com.wolftech.louvorsheknah.entity.Log;
 import com.wolftech.louvorsheknah.entity.Repertorio;
+import com.wolftech.louvorsheknah.entity.Usuario;
+import com.wolftech.louvorsheknah.entity.enums.Tipo;
 import com.wolftech.louvorsheknah.exception.ObjectNotFoundException;
 import com.wolftech.louvorsheknah.mapper.RepertorioCadastroMapper;
 import com.wolftech.louvorsheknah.mapper.RepertorioMapper;
@@ -23,14 +26,23 @@ public class RepertorioService {
     private final RepertorioCadastroMapper cadastroMapper;
     private final RepertorioMapper mapper;
     private final UsuarioService usuarioService;
+    private final LogService logService;
 
 
     public Repertorio salvar(RepertorioCadastroDTO dto) {
         Repertorio repertorio = cadastroMapper.toEntity(dto);
+        Usuario usuario = usuarioService.buscarPorId(dto.getIdUsuario());
         repertorio.setDataCriacao(new Date());
         repertorio.setUsuario(usuarioService.buscarPorId(dto.getIdUsuario()));
+        Log log = new Log();
+        log.setAutor(usuario.getNome());
+        log.setIdObjeto(usuario.getId());
+        log.setDescricao("Novo repertório criado " + repertorio.getNome());
+        log.setTipo(Tipo.ITEM);
+        logService.salvar(log);
         return repository.save(repertorio);
     }
+
 
     public List<Repertorio> listarTudo() {
         return repository.findAll();
