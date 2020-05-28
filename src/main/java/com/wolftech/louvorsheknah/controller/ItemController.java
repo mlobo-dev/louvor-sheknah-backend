@@ -14,8 +14,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/itens")
-@Api(description = "Rotas para operações com Itens", tags = "Items")
+@RequestMapping("/items")
+@Api(description = "Rotas para operações com items", tags = "Items")
 public class ItemController {
 
 
