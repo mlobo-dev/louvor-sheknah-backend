@@ -14,8 +14,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/itens")
-@Api(description = "Rotas para operações com Itens", tags = "Items")
+@RequestMapping("/items")
+@Api(description = "Rotas para operações com items", tags = "Items")
 public class ItemController {
 
 
@@ -25,6 +25,16 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<List<ItemDTO>> listarTudo() {
         return ResponseEntity.ok(mapper.toDto(service.listarTudo()));
+    }
+
+    @GetMapping("/buscar/{texto}")
+    public ResponseEntity<List<ItemDTO>> listarTudo(@PathVariable("texto") String nome) {
+        return ResponseEntity.ok(mapper.toDto(service.buscarTodasPeloNome(nome)));
+    }
+
+    @GetMapping("/buscar/nome/{nome}")
+    public ResponseEntity<ItemDTO> buscarPeloNome(@PathVariable("nome") String nome) {
+        return ResponseEntity.ok(mapper.toDto(service.buscarPeloNome(nome)));
     }
 
     @GetMapping("/{id}")
