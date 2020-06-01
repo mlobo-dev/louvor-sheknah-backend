@@ -27,6 +27,16 @@ public class ItemController {
         return ResponseEntity.ok(mapper.toDto(service.listarTudo()));
     }
 
+    @GetMapping("/buscar/{texto}")
+    public ResponseEntity<List<ItemDTO>> listarTudo(@PathVariable("texto") String nome) {
+        return ResponseEntity.ok(mapper.toDto(service.buscarTodasPeloNome(nome)));
+    }
+
+    @GetMapping("/buscar/nome/{nome}")
+    public ResponseEntity<ItemDTO> buscarPeloNome(@PathVariable("nome") String nome) {
+        return ResponseEntity.ok(mapper.toDto(service.buscarPeloNome(nome)));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ItemDTO> buscarPorId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(mapper.toDto(service.buscarPorId(id)));

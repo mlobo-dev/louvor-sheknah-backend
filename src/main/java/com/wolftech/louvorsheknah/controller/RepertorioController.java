@@ -53,7 +53,7 @@ public class RepertorioController {
     @ApiOperation("Exclui um departamento pelo id.")
     public ResponseEntity deleterCard(@PathVariable("id") Long id) {
         departamentoService.deletar(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping

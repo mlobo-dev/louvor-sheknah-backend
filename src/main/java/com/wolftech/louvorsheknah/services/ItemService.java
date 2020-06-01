@@ -44,6 +44,14 @@ public class ItemService {
         return repository.findAll();
     }
 
+    public List<Item> buscarTodasPeloNome(String nome) {
+        return repository.findAllByNomeContainsIgnoreCase(nome);
+    }
+
+    public Item buscarPeloNome(String nome){
+        return  repository.findByNome(nome);
+    }
+
     public Item editarItem(ItemDTO dto) {
         buscarPorId(dto.getId());
         return repository.save(mapper.toEntity(dto));
