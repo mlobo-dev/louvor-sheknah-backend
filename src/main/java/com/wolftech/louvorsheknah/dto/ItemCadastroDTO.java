@@ -1,4 +1,5 @@
 package com.wolftech.louvorsheknah.dto;
+
 import com.wolftech.louvorsheknah.entity.enums.CategoriaEnum;
 import lombok.*;
 
@@ -12,20 +13,20 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class ItemCadastroDTO implements Serializable {
-	private Long id;
+    private Long id;
 
-	@NotNull
-	private Long idUsuario;
+    @NotNull(message = "O Email é obrigatório")
+    private String emailUsuario;
 
-	@NotNull
-	private String nome;
+    @NotNull
+    private String nome;
 
-	private String urlCifra;
-	private String urlVideo;
-	private String urlAudio;
-	private CategoriaEnum categoriaEnum;
-	private String artista;
-	private String letra;
+    private String urlCifra;
+    private String urlVideo;
+    private String urlAudio;
+    private CategoriaEnum categoriaEnum;
+    private String artista;
+    private String letra;
 
 
 }

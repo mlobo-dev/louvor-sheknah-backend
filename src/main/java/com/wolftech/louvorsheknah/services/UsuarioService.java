@@ -48,12 +48,18 @@ public class UsuarioService {
     public Usuario autenticar(String emailOuLogin, String senha) {
         Optional<Usuario> usuario = repository.findByEmailOrLogin(emailOuLogin, emailOuLogin);
         if (!usuario.isPresent()) {
-            throw new AuthException("Usuário não encontrado: " );
+            throw new AuthException("Usuário não encontrado: ");
         }
 
         if (!usuario.get().getSenha().equals(senha)) {
             throw new AuthException("Senha Inválida.");
         }
         return usuario.get();
+    }
+
+    public Usuario buscarPorEmail(String emailUsuario) {
+        return repository.findByEmail(emailUsuario).orElseThrow(
+                () -> new ObjectNotFoundException("Usuário não localizado pelo email: " + emailUsuario)
+        );
     }
 }

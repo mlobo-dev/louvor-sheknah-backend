@@ -26,7 +26,7 @@ public class ItemService {
     private final UsuarioService usuarioService;
 
     public Item salvar(ItemCadastroDTO dto) {
-        Usuario usuario = usuarioService.buscarPorId(dto.getIdUsuario());
+        Usuario usuario = usuarioService.buscarPorEmail(dto.getEmailUsuario());
         Item item = cadastroMapper.toEntity(dto);
         item.setUsuario(usuario);
         repository.save(item);
@@ -36,7 +36,7 @@ public class ItemService {
         log.setIdObjeto(usuario.getId());
         log.setDescricao("Nova música adicionada ao repertório: " + item.getNome());
         log.setTipo(Tipo.ITEM);
-        logService.salvar(log);
+
         return item;
     }
 
