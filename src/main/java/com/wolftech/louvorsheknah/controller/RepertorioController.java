@@ -1,10 +1,10 @@
 package com.wolftech.louvorsheknah.controller;
 
-import com.wolftech.louvorsheknah.dto.ItemDTO;
+import com.wolftech.louvorsheknah.dto.MusicaDTO;
 import com.wolftech.louvorsheknah.dto.RepertorioCadastroDTO;
 import com.wolftech.louvorsheknah.dto.RepertorioDTO;
 import com.wolftech.louvorsheknah.entity.Repertorio;
-import com.wolftech.louvorsheknah.mapper.ItemMapper;
+import com.wolftech.louvorsheknah.mapper.MusicaMapper;
 import com.wolftech.louvorsheknah.mapper.RepertorioMapper;
 import com.wolftech.louvorsheknah.services.RepertorioService;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ public class RepertorioController {
 
     private final RepertorioService departamentoService;
     private final RepertorioMapper departamentoMapper;
-    private final ItemMapper itemMapper;
+    private final MusicaMapper musicaMapper;
 
 
     @PostMapping
@@ -64,17 +64,17 @@ public class RepertorioController {
 
     @PostMapping("/{idRepertorio}/add-itens")
     @ApiOperation("Adiciona funcionários através do id do departamento, e de uma lista de funcionários passada no corpo da requisição.")
-    public ResponseEntity<RepertorioDTO> adicionarFuncionarios(@PathVariable("idRepertorio") Long idRepertorio, @RequestBody Set<ItemDTO> itens) {
+    public ResponseEntity<RepertorioDTO> adicionarFuncionarios(@PathVariable("idRepertorio") Long idRepertorio, @RequestBody Set<MusicaDTO> itens) {
         return ResponseEntity.ok(
-                departamentoMapper.toDto(departamentoService.adicionarItems(idRepertorio, itemMapper.toEntity(itens)
+                departamentoMapper.toDto(departamentoService.adicionarItems(idRepertorio, musicaMapper.toEntity(itens)
                 )));
     }
 
     @PostMapping("/{idRepertorio}/remover-funcionarios")
     @ApiOperation("Remove funcionários através do id do departamento, e de uma lista de funcionários passada no corpo da requisição.")
-    public ResponseEntity<RepertorioDTO> removerFuncionarios(@PathVariable("idRepertorio") Long idRepertorio, @RequestBody Set<ItemDTO> itens) {
+    public ResponseEntity<RepertorioDTO> removerFuncionarios(@PathVariable("idRepertorio") Long idRepertorio, @RequestBody Set<MusicaDTO> itens) {
         return ResponseEntity.ok(
-                departamentoMapper.toDto(departamentoService.removerItems(idRepertorio, itemMapper.toEntity(itens)))
+                departamentoMapper.toDto(departamentoService.removerItems(idRepertorio, musicaMapper.toEntity(itens)))
         );
     }
 

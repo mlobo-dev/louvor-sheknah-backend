@@ -12,14 +12,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "TB_ITEM")
-public class Item implements Serializable {
+@Table(name = "TB_MUSICA")
+public class Musica implements Serializable {
 
 	private static final long serialVersionUID = 1;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "COD_ITEM")
+	@Column(name = "COD_MUSICA")
 	private Long id;
 
 	@Column(name = "NOME")
@@ -39,7 +39,7 @@ public class Item implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "CATEGORIA")
-	private CategoriaEnum categoriaEnum;
+	private CategoriaEnum categoria;
 
 	@Column(name = "ARTISTA")
 	private String artista;

@@ -12,7 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemCadastroDTO implements Serializable {
+public class MusicaCadastroDTO implements Serializable {
+
     private Long id;
 
     @NotNull(message = "O Email é obrigatório")
@@ -24,7 +25,7 @@ public class ItemCadastroDTO implements Serializable {
     private String urlCifra;
     private String urlVideo;
     private String urlAudio;
-    private CategoriaEnum categoriaEnum;
+    private CategoriaEnum categoria;
     private String artista;
     private String letra;
 

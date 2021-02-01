@@ -1,11 +1,13 @@
 package com.wolftech.louvorsheknah.dto;
 
-import com.wolftech.louvorsheknah.entity.Item;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wolftech.louvorsheknah.entity.Musica;
 import com.wolftech.louvorsheknah.entity.Usuario;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,10 +23,11 @@ public class RepertorioDTO implements Serializable {
 
     private Long id;
     private String nome;
-    private Date dataCriacao;
-    private Date dataExecucao;
+    private LocalDateTime dataCriacao;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataExecucao;
     private Usuario usuario;
     private String observacoes;
-    private Set<Item> items = new HashSet<>();
+    private Set<Musica> musicas = new HashSet<>();
 
 }

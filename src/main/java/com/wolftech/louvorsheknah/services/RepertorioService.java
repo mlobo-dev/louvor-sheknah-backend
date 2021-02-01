@@ -2,8 +2,8 @@ package com.wolftech.louvorsheknah.services;
 
 import com.wolftech.louvorsheknah.dto.RepertorioCadastroDTO;
 import com.wolftech.louvorsheknah.dto.RepertorioDTO;
-import com.wolftech.louvorsheknah.entity.Item;
 import com.wolftech.louvorsheknah.entity.Log;
+import com.wolftech.louvorsheknah.entity.Musica;
 import com.wolftech.louvorsheknah.entity.Repertorio;
 import com.wolftech.louvorsheknah.entity.Usuario;
 import com.wolftech.louvorsheknah.entity.enums.Tipo;
@@ -14,7 +14,7 @@ import com.wolftech.louvorsheknah.repositories.RepertorioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -31,9 +31,9 @@ public class RepertorioService {
 
     public Repertorio salvar(RepertorioCadastroDTO dto) {
         Repertorio repertorio = cadastroMapper.toEntity(dto);
-        Usuario usuario = usuarioService.buscarPorId(dto.getIdUsuario());
-        repertorio.setDataCriacao(new Date());
-        repertorio.setUsuario(usuarioService.buscarPorId(dto.getIdUsuario()));
+        Usuario usuario = usuarioService.buscarPorEmail(dto.getEmailUsuario());
+        repertorio.setDataCriacao(LocalDateTime.now());
+        repertorio.setUsuario(usuario);
         Log log = new Log();
         log.setAutor(usuario.getNome());
         log.setIdObjeto(usuario.getId());
@@ -64,20 +64,20 @@ public class RepertorioService {
         repository.deleteById(id);
     }
 
-    public Repertorio adicionarItems(Long idRepertorio, Set<Item> items) {
+    public Repertorio adicionarItems(Long idRepertorio, Set<Musica> musicas) {
         Repertorio repertorio = buscarPeloId(idRepertorio);
-        for (Item item : items) {
-            if (!repertorio.getItems().contains(item)) {
-                repertorio.getItems().add(item);
+        for (Musica musica : musicas) {
+            if (!repertorio.getMusicas().contains(musica)) {
+                repertorio.getMusicas().add(musica);
             }
         }
         return repository.save(repertorio);
     }
 
-    public Repertorio removerItems(Long idRepertorio, Set<Item> funcionarios) {
+    public Repertorio removerItems(Long idRepertorio, Set<Musica> funcionarios) {
         Repertorio repertorio = buscarPeloId(idRepertorio);
-        for (Item item : funcionarios) {
-            repertorio.getItems().removeIf(f -> (f.getId().equals(item.getId())));
+        for (Musica musica : funcionarios) {
+            repertorio.getMusicas().removeIf(f -> (f.getId().equals(musica.getId())));
         }
         return repository.save(repertorio);
     }

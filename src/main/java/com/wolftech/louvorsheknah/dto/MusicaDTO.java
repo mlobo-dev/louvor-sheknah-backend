@@ -12,14 +12,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ItemDTO implements Serializable {
+public class MusicaDTO implements Serializable {
 	private Long id;
 	@NotNull
 	private String nome;
 	private String urlCifra;
 	private String urlVideo;
 	private String urlAudio;
-	private CategoriaEnum categoriaEnum;
+	private CategoriaEnum categoria;
 	private String artista;
 	private String letra;
 	private UsuarioDTO usuario;

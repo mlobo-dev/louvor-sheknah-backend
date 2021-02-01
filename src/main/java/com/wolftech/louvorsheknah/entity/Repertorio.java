@@ -4,7 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,10 +31,10 @@ public class Repertorio implements Serializable {
     private String nome;
 
     @Column(name = "DATA_CRIACAO")
-    private Date dataCriacao;
+    private LocalDateTime dataCriacao;
 
     @Column(name = "DATA_EXECUCAO")
-    private Date dataExecucao;
+    private LocalDate dataExecucao;
 
     @Column(name = "OBSERVACOES")
     private String observacoes;
@@ -43,11 +44,11 @@ public class Repertorio implements Serializable {
     private Usuario usuario;
 
     @ManyToMany
-    @JoinTable(name = "TB_REPERTORIO_ITEM",
+    @JoinTable(name = "TB_REPERTORIO_MUSICAS",
             joinColumns = @JoinColumn(name = "COD_REPERTORIO"),
-            inverseJoinColumns = @JoinColumn(name = "COD_ITEM")
+            inverseJoinColumns = @JoinColumn(name = "COD_MUSICA")
     )
-    private Set<Item> items = new HashSet<>();
+    private Set<Musica> musicas = new HashSet<>();
 
 
 }

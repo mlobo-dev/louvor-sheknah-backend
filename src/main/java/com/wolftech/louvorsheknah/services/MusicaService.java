@@ -1,63 +1,66 @@
 package com.wolftech.louvorsheknah.services;
 
-import com.wolftech.louvorsheknah.dto.ItemCadastroDTO;
-import com.wolftech.louvorsheknah.dto.ItemDTO;
-import com.wolftech.louvorsheknah.entity.Item;
+import com.wolftech.louvorsheknah.dto.MusicaCadastroDTO;
+import com.wolftech.louvorsheknah.dto.MusicaDTO;
+import com.wolftech.louvorsheknah.entity.Musica;
 import com.wolftech.louvorsheknah.entity.Log;
 import com.wolftech.louvorsheknah.entity.Usuario;
 import com.wolftech.louvorsheknah.entity.enums.Tipo;
 import com.wolftech.louvorsheknah.exception.ObjectNotFoundException;
 import com.wolftech.louvorsheknah.mapper.ItemCadastroMapper;
-import com.wolftech.louvorsheknah.mapper.ItemMapper;
-import com.wolftech.louvorsheknah.repositories.ItemRepository;
+import com.wolftech.louvorsheknah.mapper.MusicaMapper;
+import com.wolftech.louvorsheknah.repositories.MusicaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ItemService {
+public class MusicaService {
 
-    private final ItemRepository repository;
-    private final ItemMapper mapper;
+    private final MusicaRepository repository;
+    private final MusicaMapper mapper;
     private final ItemCadastroMapper cadastroMapper;
     private final LogService logService;
     private final UsuarioService usuarioService;
 
-    public Item salvar(ItemCadastroDTO dto) {
+    public Musica salvar(MusicaCadastroDTO dto) {
         Usuario usuario = usuarioService.buscarPorEmail(dto.getEmailUsuario());
-        Item item = cadastroMapper.toEntity(dto);
-        item.setUsuario(usuario);
-        repository.save(item);
+        Musica musica = cadastroMapper.toEntity(dto);
+        musica.setUsuario(usuario);
+        repository.save(musica);
 
         Log log = new Log();
         log.setAutor(usuario.getNome());
         log.setIdObjeto(usuario.getId());
-        log.setDescricao("Nova música adicionada ao repertório: " + item.getNome());
+        log.setDescricao((dto.getId()!=null? "Atualização nas informações da música": "Nova música adicionada ao repertório: ") + musica.getNome());
         log.setTipo(Tipo.ITEM);
 
-        return item;
+        return musica;
     }
 
-    public List<Item> listarTudo() {
-        return repository.findAll();
+    public List<Musica> listarTudo() {
+        List<Musica> musicas = repository.findAll();
+        musicas.sort(Comparator.comparing(Musica::getId));
+        return musicas;
     }
 
-    public List<Item> buscarTodasPeloNome(String nome) {
+    public List<Musica> buscarTodasPeloNome(String nome) {
         return repository.findAllByNomeContainsIgnoreCase(nome);
     }
 
-    public Item buscarPeloNome(String nome){
-        return  repository.findByNome(nome);
+    public Musica buscarPeloNome(String nome) {
+        return repository.findByNome(nome);
     }
 
-    public Item editarItem(ItemDTO dto) {
+    public Musica editarItem(MusicaDTO dto) {
         buscarPorId(dto.getId());
         return repository.save(mapper.toEntity(dto));
     }
 
-    public Item buscarPorId(Long id) {
+    public Musica buscarPorId(Long id) {
         return repository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Usuário não localizado pelo id: " + id)
         );
